@@ -1,4 +1,6 @@
 data=read.csv("iris_csv.csv")
+data=read.csv(file.choose())
+head(data)
 data=data[data$class=="Iris-setosa" | data$class=="Iris-virginica",]
 data$class=ifelse(data$class==c("Iris-setosa"),1,0)
 n_features=ncol(data)
@@ -105,9 +107,13 @@ plot(c(1:length(costs)),costs,type="l")
 table(ytest)
 table(y_ts_pred)
 df=data.frame(y_ts_pred,ytest)
+install.packages("rlang")
+install.packages("caret")
+install.packages("ggplot2")
+library(ggplot2)
+library(lattice)
+library(caret)
 
-#install.packages("caret")
-#library(caret)
 confusion_matrix=confusionMatrix(as.factor(df$ytest), as.factor(df$y_ts_pred))
 confusion_matrix
 
@@ -146,15 +152,13 @@ bootstrapCI=function(data,alpha,n=20){
 
 CI=bootstrapCI(data,0.15,n=100)
 CI
-#library(boot)
+library(boot)
 x1<-rnorm(50,2,0.25)
 b1<-boot(x1,function(u,i) mean(u[i]),R=1000)
 CI=boot.ci(b1,type=c("norm"))
 CI$norm
 b1
-?boot
+
 n=20
-
-
 CI
-g
+
