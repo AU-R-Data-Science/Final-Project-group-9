@@ -153,6 +153,7 @@ bootstrapCI=function(data,alpha,n=20){
 CI=bootstrapCI(data,0.15,n=100)
 CI
 library(boot)
+library(lattice)
 x1<-rnorm(50,2,0.25)
 b1<-boot(x1,function(u,i) mean(u[i]),R=1000)
 CI=boot.ci(b1,type=c("norm"))
