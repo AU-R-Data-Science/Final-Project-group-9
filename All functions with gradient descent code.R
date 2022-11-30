@@ -66,7 +66,7 @@ sigmoid=function(result){
 #' @param x  a matrix containing the training dataset independent variable parameters. 
 #' @param y  a numeric vector containing training dataset classification values.
 #'
-#' @return
+#' @return 
 #' @export
 #'
 #' @examples
