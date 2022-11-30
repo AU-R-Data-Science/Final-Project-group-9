@@ -1,14 +1,17 @@
+
 library(caret)
 library(boot)
 library(mlbench)
 #data("PimaIndiansDiabetes")
 data=read.csv("winequality-red.csv")
+
 #data=PimaIndiansDiabetes
 #data=data[data$class=="Iris-setosa" | data$class=="Iris-virginica",]
 #data$class=ifelse(data$class=="Iris-setosa",1,0)
+
 data$quality=ifelse(data$quality<6,1,0)
 n_features=ncol(data)
-
+data
 dt = sort(sample(nrow(data), nrow(data)*.7))
 train<-data[dt,]
 test<-data[-dt,]
@@ -26,17 +29,29 @@ weightInitialization=function(x,y){
 }
 init=weightInitialization(x,y)
 
+
 sigmoid=function(result){
   final_result = 1/(1+exp(-result))
   return(final_result)
 }
 
+#' Logistic Regression
+#'
+#' @param theta a numerical coefficient vector 
+#' @param X 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 cost.glm <- function(theta,X) {
   m <- nrow(X)
   g <- sigmoid(X%*%theta)
   (1/m)*sum((-y*log(g)) - ((1-y)*log(1-g)))
 }
 
+
+?glm
 x1 <- cbind(1, x)
 predict=optim(par=init, fn = cost.glm, method='CG',
               X=x1)
@@ -54,6 +69,16 @@ m_tr =  nrow(x)
 m_ts =  nrow(xtest)
 
 
+#' Dataset prediction
+#'
+#' @param final_pred 
+#' @param m 
+#' @param cutoff 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 predictor=function(final_pred, m, cutoff=0.5){
   y_pred = rep(0,m)
   for(i in 1:length(final_pred)){
@@ -86,6 +111,16 @@ ggplot(newdata, aes(x=prob, y=class)) +
 
 
 
+#' Bootstral confidence interval
+#'
+#' @param data 
+#' @param alpha 
+#' @param n 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 bootstrapCI=function(data,alpha,n=20){
   n_features=ncol(data)
   beta=matrix(nrow=n,ncol=n_features)
@@ -117,13 +152,23 @@ bootstrapCI=function(data,alpha,n=20){
 
 CI=bootstrapCI(data,0.05)
 CI
+
+#' Title
+#'
+#' @param y_prob 
+#' @param ytest 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 metricplot=function(y_prob,ytest){
   m_tr =  nrow(y_prob)
   metrics=matrix(nrow=9,ncol=7)
   colnames(metrics)=c("Prevalence","Accuracy","Sensitivity","Specificity","False Discovery Rate","Diagnostic Odds Ratio","cutoff")
   for(i in 1:9){
     y_ts_pred = predictor(y_prob, m_tr,cutoff=i/10)
-    confusion_matrix=confusionMatrix(as.factor(ytest), as.factor(y_ts_pred))
+    confusion_matrix=?confusionMatrix(as.factor(ytest), as.factor(y_ts_pred))
     metrics[i,1]=as.vector(confusion_matrix$byClass[8])
     metrics[i,2]=as.vector(confusion_matrix$overall[1])
     metrics[i,3]=as.vector(confusion_matrix$byClass[1])
@@ -136,3 +181,5 @@ metricplot=function(y_prob,ytest){
 }
 metricplot(final_test_pred,ytest)
 i
+
+
