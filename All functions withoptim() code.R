@@ -1,10 +1,16 @@
+<<<<<<< Updated upstream
 #setwd("~/GitHub/Final-Project-group-9")
+=======
+library(lattice)
+library(ggplot2)
+>>>>>>> Stashed changes
 library(caret)
 library(boot)
 library(mlbench)
 #data("PimaIndiansDiabetes")
 
 data=read.csv("iris_csv.csv")
+data=read.csv(file.choose())
 #data=PimaIndiansDiabetes
 data=data[data$class=="Iris-setosa" | data$class=="Iris-virginica",]
 data$class=ifelse(data$class=="Iris-setosa",1,0)
@@ -210,7 +216,7 @@ y_tr_pred = predictor(final_train_pred, m_tr,cutoff=0.5)
 y_ts_pred = predictor(final_test_pred, m_ts)
 
 
-#plot(c(1:length(costs)),costs,type="l")
+plot(c(1:length(costs)),costs,type="l")
 table(ytest)
 table(y_ts_pred)
 newdata <- matrix(t(final_test_pred))
@@ -223,6 +229,7 @@ ggplot(newdata, aes(x=prob, y=class)) +
   geom_point(alpha=.5) +
   geom_smooth(method="glm", se=FALSE, method.args = list(family=binomial))
 #install.packages("caret")
+<<<<<<< Updated upstream
 
 
 
@@ -237,6 +244,9 @@ ggplot(newdata, aes(x=prob, y=class)) +
 #'
 #' @examples
 
+=======
+library(caret)
+>>>>>>> Stashed changes
 bootstrapCI=function(data,alpha,n=20){
   n_features=ncol(data)
   beta=matrix(nrow=n,ncol=n_features)

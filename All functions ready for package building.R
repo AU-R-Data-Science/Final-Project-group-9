@@ -1,8 +1,11 @@
+library(ggplot2)
+library(lattice)
 library(caret)
 library(boot)
 library(mlbench)
 #data("PimaIndiansDiabetes")
 data=read.csv("winequality-red.csv")
+data=read.csv(file.choose())
 #data=PimaIndiansDiabetes
 #data=data[data$class=="Iris-setosa" | data$class=="Iris-virginica",]
 #data$class=ifelse(data$class=="Iris-setosa",1,0)
@@ -17,6 +20,19 @@ y=train[,n_features]
 xtest=test[,1:n_features-1]
 ytest=test[,n_features]
 
+#' Initialization of Optimization Values
+#' 
+#' @description `weightInitialization` returns initial values for optimization based on the least-squares formula. 
+#' 
+#' @param x  a matrix containing the training dataset independent variable parameters. 
+#' @param y  a numeric vector containing training dataset classification values.
+#'
+#' @return a matrix containing initial values for optimization.
+#' @export
+#'
+#' @examples 
+#' 
+#' 
 weightInitialization=function(x,y){
   init_weights=solve(t(x)%*%x)%*%t(x)%*%y
   init_intercept = mean(y) - (colMeans(x)%*%init_weights)
@@ -25,11 +41,35 @@ weightInitialization=function(x,y){
   return(init)
 }
 init=weightInitialization(x,y)
+#' Fitted logistic curve
+#'
+#' @description Calculates a predictive indicator of a dataset based on a logistic model. 
+#'
+#' @param result a numeric data expression or dataset to be evaluated using a logistic curve. 
+#'
+#' @return a vector of the predictors produced from `sigmoid` for each independent variable.
+#' 
+#' @export
+#'
+#' @examples
+#' 
+#' 
+#' 
 
 sigmoid=function(result){
   final_result = 1/(1+exp(-result))
   return(final_result)
 }
+
+#' Logistic Regression
+#'
+#' @param theta a numerical coefficient vector 
+#' @param X a matrix containing the training dataset independent variable parameters.
+#'
+#' @return a cost estimator of the data 
+#' @export
+#'
+#' @examples
 
 cost.glm <- function(theta,X) {
   m <- nrow(X)
@@ -50,7 +90,16 @@ final_test_pred = t(sigmoid(w%*%t(xtest)+b))
 
 m_ts =  nrow(xtest)
 
-
+#' Title
+#'
+#' @param final_pred 
+#' @param m the number of rows contained in the training dataset.
+#' @param cut_off the designated cut-off value for prediction. 
+#'
+#' @return a vector of predicted y values 
+#' @export
+#'
+#' @examples
 predictor=function(final_pred, m, cutoff=0.5){
   y_pred = rep(0,m)
   for(i in 1:length(final_pred)){
@@ -62,7 +111,16 @@ predictor=function(final_pred, m, cutoff=0.5){
   return(y_pred)
 }
 
-
+#' Title
+#'
+#' @param data 
+#' @param alpha 
+#' @param n 
+#'
+#' @return
+#' @export
+#'
+#' @examples
 bootstrapCI=function(data,alpha,n=20){
   n_features=ncol(data)
   beta=matrix(nrow=n,ncol=n_features)
@@ -136,3 +194,4 @@ metricplot=function(y_prob,ytest,metric){
 }
 
 metricplot(final_test_pred,ytest,metric="Sensitivity")
+
