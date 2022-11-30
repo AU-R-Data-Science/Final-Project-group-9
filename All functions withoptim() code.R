@@ -3,13 +3,13 @@ library(caret)
 library(boot)
 library(mlbench)
 #data("PimaIndiansDiabetes")
-data=read.csv("winequality-red.csv")
 
+data=read.csv("iris_csv.csv")
 #data=PimaIndiansDiabetes
-#data=data[data$class=="Iris-setosa" | data$class=="Iris-virginica",]
-#data$class=ifelse(data$class=="Iris-setosa",1,0)
+data=data[data$class=="Iris-setosa" | data$class=="Iris-virginica",]
+data$class=ifelse(data$class=="Iris-setosa",1,0)
+#data$quality=ifelse(data$quality<6,1,0)
 
-data$quality=ifelse(data$quality<6,1,0)
 n_features=ncol(data)
 data
 dt = sort(sample(nrow(data), nrow(data)*.7))
@@ -69,6 +69,7 @@ m_tr =  nrow(x)
 m_ts =  nrow(xtest)
 
 
+
 #' Dataset prediction
 #'
 #' @param final_pred 
@@ -79,6 +80,8 @@ m_ts =  nrow(xtest)
 #' @export
 #'
 #' @examples
+
+
 predictor=function(final_pred, m, cutoff=0.5){
   y_pred = rep(0,m)
   for(i in 1:length(final_pred)){
@@ -98,11 +101,11 @@ y_ts_pred = predictor(final_test_pred, m_ts)
 #plot(c(1:length(costs)),costs,type="l")
 table(ytest)
 table(y_ts_pred)
-newdata <- data.frame(prob=seq(min(ytest), max(ytest),length=length(ytest)))
-newdata$class=predictor(newdata$prob, m_ts)
+newdata <- matrix(t(final_test_pred))
+newdata=sort(cbind(newdata,xtest[,2]))
 
-plot(class~prob, data=newdata, col="steelblue")
-lines(class~prob, newdata, lwd=2)
+plot(V1~V2, data=newdata, col="steelblue")
+lines(V1~V2, newdata, lwd=2)
 
 ggplot(newdata, aes(x=prob, y=class)) +
   geom_point(alpha=.5) +
@@ -121,6 +124,7 @@ ggplot(newdata, aes(x=prob, y=class)) +
 #' @export
 #'
 #' @examples
+
 bootstrapCI=function(data,alpha,n=20){
   n_features=ncol(data)
   beta=matrix(nrow=n,ncol=n_features)
@@ -150,8 +154,9 @@ bootstrapCI=function(data,alpha,n=20){
   return(CI)
 }
 
-CI=bootstrapCI(data,0.05)
+CI=bootstrapCI(data,n=30,0.1)
 CI
+
 
 #' Title
 #'
@@ -162,7 +167,11 @@ CI
 #' @export
 #'
 #' @examples
-metricplot=function(y_prob,ytest){
+
+confusion_matrix=confusionMatrix(as.factor(ytest), as.factor(y_ts_pred))
+confusion_matrix
+metricplot=function(y_prob,ytest,metric){
+
   m_tr =  nrow(y_prob)
   metrics=matrix(nrow=9,ncol=7)
   colnames(metrics)=c("Prevalence","Accuracy","Sensitivity","Specificity","False Discovery Rate","Diagnostic Odds Ratio","cutoff")
@@ -177,9 +186,9 @@ metricplot=function(y_prob,ytest){
     metrics[i,6]=metrics[i,2]*metrics[i,3]/((1-metrics[i,2])*(1-metrics[i,3]))
     metrics[i,7]=i/10
   }
-  return(metrics)
+  return(plot(y=metric_data[,metric],x=metric_data[,7],type="l",xlab="cutoff",ylab=metric))
 }
-metricplot(final_test_pred,ytest)
-i
+
+metricplot(final_test_pred,ytest,metric="Accuracy")
 
 
