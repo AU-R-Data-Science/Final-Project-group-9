@@ -1,13 +1,20 @@
-#' Title bootstrap CI
+#' Bootstrap Confidence Interval
 #'
-#' @param data
-#' @param alpha
-#' @param n
+#' @param data a numeric dataset containing data for predictive modelling of a dataset
+#' @param alpha the designated significance value
+#' @param n the number of bootstraps (default is 20)
 #'
-#' @return
+#' @return a numeric matrix containing the bootstrap confidence interval
 #' @export
 #'
 #' @examples
+#' 
+#' data=read.csv("iris_csv.csv")
+#' data=data[data$class=="Iris-setosa" | data$class=="Iris-virginica",]
+#' data$class=ifelse(data$class=="Iris-setosa",1,0)
+#' 
+#' bootstrapCI(data,alpha=0.05,n=20)
+#'
 bootstrapCI=function(data,alpha,n=20){
    n_features=ncol(data)
    beta=matrix(nrow=n,ncol=n_features)
@@ -37,7 +44,5 @@ bootstrapCI=function(data,alpha,n=20){
    return(CI)
 }
 
-CI=bootstrapCI(data,0.05,n=20)
-CI
 
 

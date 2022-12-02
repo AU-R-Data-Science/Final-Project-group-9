@@ -4,20 +4,20 @@ library(caret)
 library(boot)
 library(mlbench)
 #data("PimaIndiansDiabetes")
-data=read.csv(file.choose())
+#data=read.csv(file.choose())
 #data=PimaIndiansDiabetes
 #data=data[data$class=="Iris-setosa" | data$class=="Iris-virginica",]
 #data$class=ifelse(data$class=="Iris-setosa",1,0)
-data$quality=ifelse(data$quality<6,1,0)
-n_features=ncol(data)
+#data$quality=ifelse(data$quality<6,1,0)
+#n_features=ncol(data)
 
-dt = sort(sample(nrow(data), nrow(data)*.7))
-train<-data[dt,]
-test<-data[-dt,]
-x=as.matrix(train[,1:n_features-1])
-y=train[,n_features]
-xtest=test[,1:n_features-1]
-ytest=test[,n_features]
+# dt = sort(sample(nrow(data), nrow(data)*.7))
+# train<-data[dt,]
+# test<-data[-dt,]
+# x=as.matrix(train[,1:n_features-1])
+# y=train[,n_features]
+# xtest=test[,1:n_features-1]
+# ytest=test[,n_features]
 
 #' Initialization of Optimization Values
 #'
@@ -30,7 +30,20 @@ ytest=test[,n_features]
 #' @export
 #'
 #' @examples
+#'#' data=read.csv("iris_csv.csv")
+#' data=data[data$class=="Iris-setosa" | data$class=="Iris-virginica",]
+#' data$class=ifelse(data$class=="Iris-setosa",1,0)
+
+#' n_features=ncol(data)
+#' dt = sort(sample(nrow(data), nrow(data)*.7))
+#' train<-data[dt,]
+#' test<-data[-dt,]
+#' x=as.matrix(train[,1:n_features-1])
+#' y=train[,n_features]
+#' xtest=test[,1:n_features-1]
+#' ytest=test[,n_features]
 #'
+#' init=weightInitialization(x,y)
 #'
 weightInitialization=function(x,y){
    init_weights=solve(t(x)%*%x)%*%t(x)%*%y
@@ -39,4 +52,4 @@ weightInitialization=function(x,y){
    names(init)=c("intercept",colnames(x))
    return(init)
 }
-init=weightInitialization(x,y)
+#init=weightInitialization(x,y)
