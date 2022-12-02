@@ -1,9 +1,9 @@
-Package: Logistic_regression
+Package: LogisticRegression
 Type: Package
 Title: logistic regression using numerical optimization
 Version: 0.1.0
 Authors@R: c(
-    person("Nitin", "Yadav", email = "nzy0018@auburn.edu", role = c("aut", "cre"),
+    person("Nitin", "Yadav", email = "nzy0018@auburn.edu", role = c("aut", "cre")),
     person("Annu", "Kumari", email = "azk0132@auburn.edu", role = "aut"),
     person("Rachel", "Haich", email ="roh0002@auburn.edu", role = "aut")
     )
