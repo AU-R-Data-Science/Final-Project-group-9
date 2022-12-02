@@ -4,7 +4,6 @@ library(caret)
 library(boot)
 library(mlbench)
 #data("PimaIndiansDiabetes")
-data=read.csv("winequality-red.csv")
 data=read.csv(file.choose())
 #data=PimaIndiansDiabetes
 #data=data[data$class=="Iris-setosa" | data$class=="Iris-virginica",]
