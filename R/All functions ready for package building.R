@@ -193,5 +193,3 @@ metricplot=function(y_prob,ytest,metric){
 }
 
 metricplot(final_test_pred,ytest,metric="Sensitivity")
-
-devtools::document()
