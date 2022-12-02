@@ -1,0 +1,20 @@
+---
+title: "logistic regression"
+author: "Nitin, Annu, Rachel"
+date: "2022-12-02"
+output: html_document
+---
+Package: Logistic regression
+Type: Package
+Title: logistic regression using numerical optimization
+Version: 0.1.0
+
+Authors@R: c(person("Nitin", "Yadav", email = "nzy0018@auburn.edu", role ="aut"),person("Annu", "Kumari", email = "azk0132@auburn.edu", role = "aut"),person("Rachel", "Haich", email ="roh0002@auburn.edu", role = "aut"))
+    
+Maintainer: Nitin Yadav <nzy0018@auburn.edu>
+Description: More about what it does (maybe more than one line)
+    Use four spaces when indenting paragraphs within the Description.
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.2.1
