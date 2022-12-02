@@ -1,0 +1,26 @@
+* using log directory 'C:/Users/azk0132/OneDrive - Auburn University/Documents/GitHub/Final-Project-group-9/Logregression.Rcheck'
+* using R version 4.2.2 (2022-10-31 ucrt)
+* using platform: x86_64-w64-mingw32 (64-bit)
+* using session charset: UTF-8
+* using options '--no-manual --as-cran'
+* checking for file 'Logregression/DESCRIPTION' ... OK
+* checking extension type ... Package
+* this is package 'Logregression' version '0.1.0'
+* package encoding: UTF-8
+* checking package namespace information ... OK
+* checking package dependencies ... OK
+* checking if this is a source package ... OK
+* checking if there is a namespace ... OK
+* checking for executable files ... OK
+* checking for hidden files and directories ... OK
+* checking for portable file names ... WARNING
+Found the following file with a non-portable file name:
+  R/All functions ready for package building.R
+These are not fully portable file names.
+See section 'Package structure' in the 'Writing R Extensions' manual.
+* checking serialization versions ... OK
+* checking whether package 'Logregression' can be installed ... ERROR
+Installation failed.
+See 'C:/Users/azk0132/OneDrive - Auburn University/Documents/GitHub/Final-Project-group-9/Logregression.Rcheck/00install.out' for details.
+* DONE
+Status: 1 ERROR, 1 WARNING

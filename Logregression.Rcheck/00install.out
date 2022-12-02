@@ -1,0 +1,9 @@
+* installing *source* package 'Logregression' ...
+** using staged installation
+** R
+** byte-compile and prepare package for lazy loading
+Error in library(ggplot2) : there is no package called 'ggplot2'
+Error: unable to load R code in package 'Logregression'
+Execution halted
+ERROR: lazy loading failed for package 'Logregression'
+* removing 'C:/Users/azk0132/ONEDRI~1/DOCUME~1/GitHub/FINAL-~1/LOGREG~1.RCH/Logregression'
