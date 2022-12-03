@@ -1,0 +1,92 @@
+---
+title: "Final Project Group 9"
+author: "Nitin, Rachel, Annu"
+date: "2022-12-03"
+output: html_document
+---
+# Package Overview
+
+This R package contains functions that perform logistic regression using numerical methods on a user's chosen response and predictor data. First inital weights for the optimising functrion are estimated and then coefficients($\beta$) which minimize the cost function are estimated  which contains response and predictor data and the intercept. This is done using the function logreg_optim() with following cost function-
+$$
+\hat{\beta}\::=\underset{\beta}{\operatorname{argmin}}\sum_{i=1}^{n}(-y_{i}\cdot\ln(p_{i})-(1-y_{i})\cdot\ln(1-p_{i}))
+$$
+where
+$$
+p_{i}\::=\frac{1}{1+exp(-x_{i}^{T}\beta)}
+$$
+with $y_{i}$ representing the $i^{\text{th}}$ observation of the response and $x_{i}$ representing the $i^{\text{th}}$ row of the predictors.
+
+## How to install
+
+```{r,warning=FALSE,message=FALSE}
+#installing the package from github
+library(devtools)
+install_github("AU-R-Data-Science/Final-Project-group-9",force=TRUE)
+library(LogReg)
+```
+
+## Let's load data and see how it works
+```{r}
+
+data=read.csv("winequality-red.csv")
+data$quality=ifelse(data$quality<6,1,0)
+n_feat=ncol(data)
+
+dt = sort(sample(nrow(data), nrow(data)*.7))
+train<-data[dt,]
+
+x=as.matrix(train[,1:n_feat-1])
+y=train[,n_feat]
+head(x)
+```
+
+## Bootstrap Confidence intervals:
+
+Below are the 95% and 90% confidence intervals for $\beta$ with 30 and 40 bootstraps respectively. 
+```{r,warning=FALSE,message=FALSE}
+#calling bootsrap function from package
+library(boot)
+bootstrapCI(x,y,alpha=0.05,n=30)
+bootstrapCI(x,y,alpha=0.1,n=40)
+```
+
+## Logistic Curve
+
+Below is the logistic curve of 2nd column of x variables vs. the predicted probabilities.
+
+```{r}
+#calling glm_plot function from package
+glm_plot(x,y,2)
+```
+
+## The standard confusion matrix with cutoff 0.5. 
+
+4)The resulting ``Confusion Matrix’’ (see this link) using a cut-off value for prediction at 0.5 (i.e. assign value 1 for predictions above 0.5 and value 0 for prediction below or equal to 0.5). In addition, based on this cut-off value, also output the following metrics:
+* Prevalence
+* Accuracy
+* Sensitivity
+* Specificity
+* False Discovery Rate
+* Diagnostic Odds Ratio
+
+```{r,message=FALSE,warning=FALSE}
+#calling suitable function from package
+library(caret)
+conf_matrix(x,y)
+```
+
+## The user can also see how various metric varies with different cutoff values and optimize the model according ly to best fit the needs.
+
+```{r}
+#calling function from package
+metricplot(x,y,"Sensitivity")
+metricplot(x,y,"Accuracy")
+metricplot(x,y,"Specificity")
+```
+
+## Help ducoments for all functions in package are generated simply by using "?function" 
+
+```{r}
+#calling function from package
+?metricplot
+```
